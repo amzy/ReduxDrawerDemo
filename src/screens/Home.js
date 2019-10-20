@@ -3,16 +3,16 @@ import {
   Button,
   StyleSheet,
   Text,
-  ListView,
   View,
   Image,
   Alert,
   TouchableHighlight
 } from "react-native";
+import ListView from 'deprecated-react-native-listview';
 import ProgressSpinner from '../components/ProgressSpinner'
 import API, { APIState, APIMethod, APIPath } from "../API/API";
 import Icon from 'react-native-vector-icons/Ionicons';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 export default class HomeScreen extends Component {
   constructor(props) {

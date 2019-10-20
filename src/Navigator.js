@@ -1,10 +1,10 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import {
-  TabNavigator,
-  StackNavigator,
-  DrawerNavigator,
-} from 'react-navigation';
+import { createDrawerNavigator } from 'react-navigation-drawer'
+import { createAppContainer } from '@react-navigation/native';
+import { createStackNavigator } from 'react-navigation-stack';
+import { DrawerActions } from 'react-navigation';
+
 
 let { Ionicons,FontAwesome }     = require('react-native-vector-icons');
 
@@ -169,7 +169,7 @@ const Navigator = TabNavigator({
 export default Navigator;
 */
 
-const LoginStack = StackNavigator({
+const LoginStack = createStackNavigator({
   Login: { screen: Login ,
     navigationOptions: ({ navigation }) => ({
       title: 'Login',  // Title to appear in status bar
@@ -211,11 +211,11 @@ const LoginStack = StackNavigator({
 });
 
 
-const HomeStack = StackNavigator({
+const HomeStack = createStackNavigator({
   Home: { screen: HomeScreen ,
     navigationOptions: ({ navigation }) => ({
       title: 'Home',  // Title to appear in status bar
-      headerLeft: <HamburgerIcon onPress={() => navigation.navigate('DrawerOpen')} />,
+      headerLeft: <HamburgerIcon onPress={() => navigation.openDrawer()} />,
       headerTintColor: "#fff",
             headerStyle: {
                 backgroundColor: '#229E85',
@@ -231,11 +231,12 @@ const HomeStack = StackNavigator({
  /* mode: 'modal',*/
 });
 
-const FavStack = StackNavigator({
+const FavStack = createStackNavigator({
   Favorite: { screen: FavoritesScreen ,
     navigationOptions: ({ navigation }) => ({
       title: 'Favorites',  // Title to appear in status bar
-      headerLeft: <HamburgerIcon onPress={() => navigation.navigate('DrawerOpen')} />,
+      
+      headerLeft: <HamburgerIcon onPress={() => navigation.openDrawer()} />,
       headerTintColor: "#fff",
             headerStyle: {
                 backgroundColor: '#229E85',
@@ -251,11 +252,11 @@ const FavStack = StackNavigator({
  /* mode: 'modal',*/
 });
 
-const SettingStack = StackNavigator({
+const SettingStack = createStackNavigator({
   Settings: { screen: SettingsScreen ,
     navigationOptions: ({ navigation }) => ({
       title: 'Settings',  // Title to appear in status bar
-      headerLeft: <HamburgerIcon onPress={() => navigation.navigate('DrawerOpen')} />,
+      headerLeft: <HamburgerIcon onPress={() => navigation.openDrawer()} />,
       headerTintColor: "#fff",
             headerStyle: {
                 backgroundColor: '#229E85',
@@ -271,11 +272,11 @@ const SettingStack = StackNavigator({
  /* mode: 'modal',*/
 });
 
-const ProfileStack = StackNavigator({
+const ProfileStack = createStackNavigator({
   Profile: { screen: ProfileScreen ,
     navigationOptions: ({ navigation }) => ({
       title: 'Profile',  // Title to appear in status bar
-      headerLeft: <HamburgerIcon onPress={() => navigation.navigate('DrawerOpen')} />,
+      headerLeft: <HamburgerIcon onPress={() => navigation.openDrawer()} />,
       headerTintColor: "#fff",
             headerStyle: {
                 backgroundColor: '#229E85',
@@ -290,8 +291,8 @@ const ProfileStack = StackNavigator({
   },
  /* mode: 'modal',*/
 });
-
-const AppDrawer = DrawerNavigator({
+ 
+const AppDrawer = createDrawerNavigator({
   Home: {
     screen: HomeStack,
   },
@@ -318,7 +319,7 @@ const AppDrawer = DrawerNavigator({
 });
 
 
-const Navigator = StackNavigator({
+const Navigator = createStackNavigator({
   Login: { screen:LoginStack },
   Home: { screen: AppDrawer },
   Settings: { screen: SettingsScreen },
@@ -330,4 +331,6 @@ const Navigator = StackNavigator({
   },
 });
 
-export default Navigator;
+const App = createAppContainer(Navigator);
+
+export default App;

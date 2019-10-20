@@ -3,12 +3,12 @@ import {
   Button,
   StyleSheet,
   Text,
-  ListView,
   View,
   Image,
   TouchableHighlight
 } from "react-native";
-import Icon from 'react-native-vector-icons/Ionicons'
+import ListView from 'deprecated-react-native-listview';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const headerItem = {
   thumb: "lighthouse_lindau",
