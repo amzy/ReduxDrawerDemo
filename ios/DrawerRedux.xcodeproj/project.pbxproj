@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* DrawerReduxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DrawerReduxTests.m */; };
 		029FEB8A58EA4E60B5FEF8A8 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E57CB3F114354066808C6455 /* SimpleLineIcons.ttf */; };

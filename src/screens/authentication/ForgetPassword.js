@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   AppRegistry,
   StyleSheet,
+  KeyboardAvoidingView,
   Text,
   View,
   Button,
@@ -30,6 +31,7 @@ export default class ForgetPassword extends Component {
   render() {
     return (
       <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.keyboard} behavior='padding'>
         <TextInput
           placeholder="Username"
           placeholderTextColor="rgba(255,255,255,0.7)"
@@ -40,6 +42,7 @@ export default class ForgetPassword extends Component {
           value={this.state.email}
           onChangeText={email => this.setState({ email })}
         />
+        </KeyboardAvoidingView>
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={this.onForgetPress.bind(this)}

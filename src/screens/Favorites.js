@@ -6,9 +6,9 @@ import {
   View,
   Image,
   Alert,
+  FlatList,
   TouchableHighlight
 } from "react-native";
-import ListView from 'deprecated-react-native-listview';
 import ProgressSpinner from '../components/ProgressSpinner';
 import API, { APIState, APIMethod, APIPath } from "../API/API";
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -21,12 +21,10 @@ export default class FavoritesScreen extends Component {
     this._validResponse = this._validResponse.bind(this)
     this._errorResponse = this._errorResponse.bind(this)
     this._onPressRow = this._onPressRow.bind(this)
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
+    
     this.state = {
       loading: true,
-      dataSource: ds.cloneWithRows(menuItems),
+      dataSource: []
     };
   }
 
@@ -41,10 +39,7 @@ export default class FavoritesScreen extends Component {
 
   _validResponse = (json) => {
 
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
-    const datasource = ds.cloneWithRows(json["data"])
+    const datasource = json.data //ds.cloneWithRows(json["data"])
     //this.setState(() => ({ loading: false }))
     this.setState({
       loading: false,
@@ -66,24 +61,22 @@ export default class FavoritesScreen extends Component {
   }
   _errorResponse = (error) => {
     //Alert.alert('Error :' + error);
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
+
     this.setState(() => ({ loading: false }))
     //Alert.alert('Loading failed :' + this.state.loading);
   }
 
   _onPressRow = (rowID, rowData, action) => {
     if(rowID == 1) {
-      this.props.navigation.navigate('Home')
+      
     } else if(rowID == 2) {
-      this.props.navigation.navigate('Home')
+      
     }else if (rowID == 5){
-      this.props.navigation.navigate('Settings')
+      
     } else if (rowID == 6){
-      this.props.navigation.navigate('Login')
+      
     } else if (rowID == 4){
-      this.props.navigation.navigate('Favorite')
+      
     }
   }
 
@@ -107,17 +100,27 @@ const menuItems = [
 },
 ];
 
-  
+
 const CollectionView = ({dataSource, headerData, onSelectRow}) => (
-  <ListView
-    contentContainerStyle={{flexDirection:'row', flexWrap: 'wrap',alignItems: 'center', justifyContent: 'center',}}
-    style={tableStyles.container}
-    dataSource={dataSource}
-    renderRow={data => <CollectionViewItem data = {data} onSelectRow = {onSelectRow} />}
-    //renderSeparator={(sectionId, rowId) => <View key={rowId} style={tableStyles.separator} />}
-    //renderHeader={() => <Header headerData = {headerData} />}
-  />
+  <View style={tableStyles.container}>
+      <FlatList
+        data={dataSource}
+        renderItem={({ item }) => (
+          <CollectionViewItem data = {item} onSelectRow = {onSelectRow} />
+        )}
+        numColumns={2}
+        keyExtractor={item => item.label}
+        //ItemSeparatorComponent={ <Separator/> }
+        //ListHeaderComponent={ <Header headerData = {headerData}/> }
+        //ListFooterComponent={this.renderFooter}
+        //onRefresh={this.handleRefresh}
+        //refreshing={this.state.refreshing}
+        //onEndReached={this.handleLoadMore}
+        onEndReachedThreshold={50}
+      />
+    </View>
 );
+
 
 
 /*{`${props.name.first} ${props.name.last}`}*/
@@ -129,7 +132,7 @@ const CollectionViewItem = ({data, onSelectRow}) => (
   >
     <View style={rowStyles.container}>
       <Image source = {{uri:data.avatar}} style={rowStyles.photo}/>
-      <View style={rowStyles.container}>
+      <View style={rowStyles.icon}>
       <Text style={rowStyles.text}>{`${data.first_name + " " + data.last_name}`}</Text>
       </View>
       <MaterialIcon name="more-vert" size={22} style={rowStyles.icon}/>
@@ -152,11 +155,14 @@ const tableStyles = StyleSheet.create({
     backgroundColor: "#8E8E8E"
   }
 });
-  
+
+//flexWrap: 'wrap',alignItems: 'center', justifyContent: 'center'
+  //flex: 1, flexDirection: 'column', margin: 1 
 const rowStyles = StyleSheet.create({
   contentView:{
-    flex: 0,
-    alignItems: "center",
+    flex: 1,
+    flexDirection: 'column',
+    //alignItems: "center",
     margin:4,
     marginTop: 10,
     shadowRadius:2,
@@ -185,14 +191,13 @@ const rowStyles = StyleSheet.create({
   },
   photo: {
     height: 150,
-    width: 150,
     borderRadius: 0,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   icon: {
     justifyContent: 'flex-end',
     margin:4,
-    marginRight:4,
     color:'#229E85',
     overflow: 'hidden'
   },

@@ -167,22 +167,27 @@ const Navigator = TabNavigator({
 });
 
 export default Navigator;
+
+title: 'Login',  // Title to appear in status bar
+      headerTintColor: "#fff",
+      headerStyle: {
+        backgroundColor: '#229E85',
+        height: 44,
+        elevation: null
+      }
+
 */
 
 const LoginStack = createStackNavigator({
   Login: { screen: Login ,
     navigationOptions: ({ navigation }) => ({
-      title: 'Login',  // Title to appear in status bar
-      headerTintColor: "#fff",
-            headerStyle: {
-                backgroundColor: '#229E85',
-                height: 44,
-                elevation: null
-            }
+      headerForceInset: { top: 'never', bottom: 'never' },
+      header: null,
     })
   },
   ForgetPassword: { screen: ForgetPassword ,
     navigationOptions: ({ navigation }) => ({
+      headerForceInset: { top: 'never', bottom: 'never' },
       title: 'ForgetPassword',  // Title to appear in status bar
       headerTintColor: "#fff",
             headerStyle: {
@@ -194,6 +199,7 @@ const LoginStack = createStackNavigator({
   },
   Register: { screen: Register ,
     navigationOptions: ({ navigation }) => ({
+      headerForceInset: { top: 'never', bottom: 'never' },
       title: 'Register',  // Title to appear in status bar
       headerTintColor: "#fff",
             headerStyle: {
@@ -214,6 +220,7 @@ const LoginStack = createStackNavigator({
 const HomeStack = createStackNavigator({
   Home: { screen: HomeScreen ,
     navigationOptions: ({ navigation }) => ({
+      headerForceInset: { top: 'never', bottom: 'never' },
       title: 'Home',  // Title to appear in status bar
       headerLeft: <HamburgerIcon onPress={() => navigation.openDrawer()} />,
       headerTintColor: "#fff",
@@ -234,6 +241,7 @@ const HomeStack = createStackNavigator({
 const FavStack = createStackNavigator({
   Favorite: { screen: FavoritesScreen ,
     navigationOptions: ({ navigation }) => ({
+      headerForceInset: { top: 'never', bottom: 'never' },
       title: 'Favorites',  // Title to appear in status bar
       
       headerLeft: <HamburgerIcon onPress={() => navigation.openDrawer()} />,
@@ -255,6 +263,7 @@ const FavStack = createStackNavigator({
 const SettingStack = createStackNavigator({
   Settings: { screen: SettingsScreen ,
     navigationOptions: ({ navigation }) => ({
+      headerForceInset: { top: 'never', bottom: 'never' },
       title: 'Settings',  // Title to appear in status bar
       headerLeft: <HamburgerIcon onPress={() => navigation.openDrawer()} />,
       headerTintColor: "#fff",
@@ -275,6 +284,7 @@ const SettingStack = createStackNavigator({
 const ProfileStack = createStackNavigator({
   Profile: { screen: ProfileScreen ,
     navigationOptions: ({ navigation }) => ({
+      headerForceInset: { top: 'never', bottom: 'never' },
       title: 'Profile',  // Title to appear in status bar
       headerLeft: <HamburgerIcon onPress={() => navigation.openDrawer()} />,
       headerTintColor: "#fff",

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
-  Text,
   StatusBar,
   View
 } from 'react-native';
+import { Card, Button, Text } from "react-native-elements";
 
 export default class ProfileScreen extends Component {
   constructor(props, context) {
@@ -14,11 +14,29 @@ export default class ProfileScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-          <Text style={styles.welcome}>
-            Welcome to ProfileScreen
-          </Text>
-        </View>
+      <View style={{ flex: 1, backgroundColor: "#16a085", paddingVertical: 20 }}>
+    <Card title="Amzad Khan">
+      <View
+        style={{
+          backgroundColor: "#bcbec1",
+          alignItems: "center",
+          justifyContent: "center",
+          width: 80,
+          height: 80,
+          borderRadius: 40,
+          alignSelf: "center",
+          marginBottom: 20
+        }}
+      >
+        <Text style={{ color: "white", fontSize: 28 }}>AK</Text>
+      </View>
+      <Button
+        backgroundColor="#03A9F4"
+        title="SIGN OUT"
+        onPress={() => onSignOut().then(() => navigation.navigate("SignedOut"))}
+      />
+    </Card>
+  </View>
     );
   }
 };

@@ -6,9 +6,10 @@ import {
   View,
   Image,
   Alert,
+  FlatList,
   TouchableHighlight
 } from "react-native";
-import ListView from 'deprecated-react-native-listview';
+import { SearchBar } from 'react-native-elements';
 import ProgressSpinner from '../components/ProgressSpinner'
 import API, { APIState, APIMethod, APIPath } from "../API/API";
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -21,12 +22,10 @@ export default class HomeScreen extends Component {
     this._validResponse = this._validResponse.bind(this)
     this._errorResponse = this._errorResponse.bind(this)
     this._onPressRow = this._onPressRow.bind(this)
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
+
     this.state = {
       loading: true,
-      dataSource: ds.cloneWithRows(menuItems),
+      dataSource: []//ds.cloneWithRows(menuItems),
     };
   }
 
@@ -34,17 +33,13 @@ export default class HomeScreen extends Component {
     this.getPosts()
   }
   async getPosts() {
-
     //Alert.alert('Loading :' + this.state.loading);
     API.requst(APIMethod.get, APIPath.users, {}, this._validResponse, this._errorResponse)
   }
 
   _validResponse = (json) => {
 
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
-    const datasource = ds.cloneWithRows(json["data"])
+    const datasource = json.data //ds.cloneWithRows(json["data"])
     //this.setState(() => ({ loading: false }))
 
     this.setState({
@@ -68,24 +63,22 @@ export default class HomeScreen extends Component {
   }
   _errorResponse = (error) => {
     //Alert.alert('Error :' + error);
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
+    const ds = []
     this.setState(() => ({ loading: false }))
     //Alert.alert('Loading failed :' + this.state.loading);
   }
 
   _onPressRow = (rowID, rowData, action) => {
     if(rowID == 1) {
-      this.props.navigation.navigate('Home')
+      
     } else if(rowID == 2) {
-      this.props.navigation.navigate('Home')
+      
     }else if (rowID == 5){
-      this.props.navigation.navigate('Settings')
+      
     } else if (rowID == 6){
-      this.props.navigation.navigate('Login')
+      
     } else if (rowID == 4){
-      this.props.navigation.navigate('Favorite')
+      
     }
   }
 
@@ -94,8 +87,9 @@ export default class HomeScreen extends Component {
     return (
       <View style={{flex:1, backgroundColor:'#229E85'}}>
           <ProgressSpinner loading = {this.state.loading}/> 
-          <Table dataSource={this.state.dataSource} onSelectRow={this._onPressRow} />
-      </View>      
+          <FlatTable dataSource={this.state.dataSource} onSelectRow={this._onPressRow} />
+      </View> 
+          
     );
 
     /*
@@ -118,15 +112,28 @@ const menuItems = [
 },
 ];
 
-  
-const Table = ({dataSource, headerData, onSelectRow}) => (
-  <ListView
-    style={tableStyles.container}
-    dataSource={dataSource}
-    renderRow={data => <Row data = {data} onSelectRow = {onSelectRow} />}
-    //renderSeparator={(sectionId, rowId) => <View key={rowId} style={tableStyles.separator} />}
-    //renderHeader={() => <Header headerData = {headerData} />}
-  />
+
+const FlatTable = ({dataSource, headerData, onSelectRow}) => (
+  <View style={tableStyles.container}>
+      <FlatList
+        data={dataSource}
+        renderItem={({ item }) => (
+          <Row data = {item} onSelectRow = {onSelectRow} />
+        )}
+        keyExtractor={item => item.label}
+        //ItemSeparatorComponent={ <Separator/> }
+        ListHeaderComponent={ <Header headerData = {headerData}/> }
+        //ListFooterComponent={this.renderFooter}
+        //onRefresh={this.handleRefresh}
+        //refreshing={this.state.refreshing}
+        //onEndReached={this.handleLoadMore}
+        onEndReachedThreshold={50}
+      />
+    </View>
+);
+
+const Header = ({headerData}) => (
+  <SearchBar placeholder="Type Here..." lightTheme  />
 );
 
 
@@ -158,19 +165,19 @@ const RowToolbar = ({data, onSelectButton}) => (
     style={rowToolbarStyle.button}
     onPress={() => onSelectRow(0, data)}
   >
-  <Text style={rowToolbarStyle.text}> <Icon name="ios-heart" size={22} style={rowToolbarStyle.icon}/> {"Like"}</Text>
+  <Text style={rowToolbarStyle.text}> <Icon name="ios-heart" size={22} style={rowToolbarStyle.icon}/>   {"Like"}</Text>
   </TouchableHighlight>
   <TouchableHighlight
     style={rowToolbarStyle.borderButton}
     onPress={() => onSelectRow(1, data)}
   >
-  <Text style={rowToolbarStyle.text}><Icon name="ios-chatbubbles" size={22} style={rowToolbarStyle.icon}/>{"Comment"}</Text>
+  <Text style={rowToolbarStyle.text}><Icon name="ios-chatbubbles" size={22} style={rowToolbarStyle.icon}/>   {"Comment"}</Text>
   </TouchableHighlight>
   <TouchableHighlight
     style={rowToolbarStyle.button}
     onPress={() => onSelectRow(2, data)}
   >
-  <Text style={rowToolbarStyle.text}><Icon name="ios-share" size={22} style={rowToolbarStyle.icon}/>{ "Share"}</Text>
+  <Text style={rowToolbarStyle.text}><Icon name="ios-share" size={22} style={rowToolbarStyle.icon}/>   {"Share"}</Text>
   </TouchableHighlight>
   </View>
 );
@@ -227,7 +234,7 @@ const rowStyles = StyleSheet.create({
     flex:1,
   },
   text: {
-    padding:0,
+    padding:4,
     margin:4,
     fontSize: 18,
     color:'black',
@@ -244,7 +251,7 @@ const rowStyles = StyleSheet.create({
     justifyContent: 'flex-end',
     padding:0,
     margin:4,
-    marginRight:4,
+    marginRight:10,
     color:'#229E85',
     overflow: 'hidden'
   },

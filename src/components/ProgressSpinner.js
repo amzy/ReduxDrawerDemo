@@ -11,7 +11,18 @@ import {
   Modal,
   Alert,
 } from 'react-native';
-
+import {
+  BallIndicator,
+  BarIndicator,
+  DotIndicator,
+  MaterialIndicator,
+  PacmanIndicator,
+  PulseIndicator,
+  SkypeIndicator,
+  UIActivityIndicator,
+  WaveIndicator,
+} from 'react-native-indicators';
+//<Progress.CircleSnail color={['red', 'green', 'blue', 'purple']} animating = {this.state.loading} hidesWhenStopped= {true} />
 export default class ProgressSpinner extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +51,7 @@ export default class ProgressSpinner extends Component {
       onRequestClose={() => {console.log('close modal')}}>
       <View style={styles.modalBackground}>
         <View style={styles.activityIndicatorWrapper}>
-        <Progress.CircleSnail color={['red', 'green', 'blue', 'purple']} animating = {this.state.loading} hidesWhenStopped= {true} />
+        <BallIndicator color='orange' />
         </View>
       </View>
     </Modal>
@@ -57,10 +68,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#00000040'
   },
   activityIndicatorWrapper: {
-    backgroundColor: '#FFFFFF',
-    height: 100,
-    width: 100,
-    borderRadius: 50,
+    //backgroundColor: '#FFFFFF',
+    //height: 100,
+    //width: 100,
+    //borderRadius: 50,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-around'

@@ -5,9 +5,10 @@ import {
   Text,
   View,
   Image,
+  FlatList,
   TouchableHighlight
 } from "react-native";
-import ListView from 'deprecated-react-native-listview';
+import { List, ListItem, SearchBar } from "react-native-elements";
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const headerItem = {
@@ -52,11 +53,9 @@ const menuItems = [
 export default class Drawer extends Component {
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
+
     this.state = {
-      menu: ds.cloneWithRows(menuItems),
+      menu: menuItems,
       user: headerItem,
     };
   }
@@ -65,7 +64,7 @@ export default class Drawer extends Component {
     if(rowID == 1) {
       this.props.navigation.navigate('Home')
     } else if(rowID == 2) {
-      this.props.navigation.navigate('Home')
+      this.props.navigation.navigate('Profile')
     }else if (rowID == 5){
       this.props.navigation.navigate('Settings')
     } else if (rowID == 6){
@@ -79,7 +78,7 @@ export default class Drawer extends Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={{flex:1, backgroundColor:'#229E85'}}>
-          <Table dataSource={this.state.menu} headerData={this.state.user} onSelectRow={this.onPressRow} />
+          <FlatTable dataSource={this.state.menu} headerData={this.state.user} onSelectRow={this.onPressRow} />
       </View>      
     );
 
@@ -94,16 +93,24 @@ export default class Drawer extends Component {
   };
 }
 
-const Table = ({dataSource, headerData, onSelectRow}) => (
-  <ListView
-    style={tableStyles.container}
-    dataSource={dataSource}
-    renderRow={data => <Row data = {data} onSelectRow = {onSelectRow} />}
-    renderSeparator={(sectionId, rowId) => <View key={rowId} style={tableStyles.separator} />}
-    renderHeader={() => <Header headerData = {headerData} />}
-  />
+const FlatTable = ({dataSource, headerData, onSelectRow}) => (
+  <View style={tableStyles.container}>
+      <FlatList
+        data={dataSource}
+        renderItem={({ item }) => (
+          <Row data = {item} onSelectRow = {onSelectRow} />
+        )}
+        keyExtractor={item => item.index}
+        //ItemSeparatorComponent={ <Separator/> }
+        ListHeaderComponent={ <Header headerData = {headerData}/> }
+        //ListFooterComponent={this.renderFooter}
+        //onRefresh={this.handleRefresh}
+        //refreshing={this.state.refreshing}
+        //onEndReached={this.handleLoadMore}
+        onEndReachedThreshold={50}
+      />
+    </View>
 );
-
 
 /*{`${props.name.first} ${props.name.last}`}*/
 const Row = ({data, onSelectRow}) => (
@@ -126,6 +133,16 @@ const Header = ({headerData}) => (
   </View>
 );
 
+// const Separator = () => {
+//   <View
+//         style={{
+//           height: 1,
+//           width: "86%",
+//           backgroundColor: "#CED0CE",
+//           marginLeft: "14%"
+//         }}
+//       />
+// }
 
 const tableStyles = StyleSheet.create({
   container: {
@@ -184,9 +201,6 @@ const headerStyles = StyleSheet.create({
     borderRadius: 20
   }
 });
-
-
-
 
 
 

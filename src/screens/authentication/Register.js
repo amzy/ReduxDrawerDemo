@@ -44,12 +44,11 @@ export default class Register extends Component {
 
   render() {
     return (
+      <KeyboardAvoidingView  style={styles.keyboard} behavior='padding'>
       <View behavior="padding" style={styles.container}>
         <View style={styles.logoContainer}>
-         
-          <Text style={styles.subtext}>Sign Up:</Text>
+          <Text style={styles.subtext}>Sign Up</Text>
         </View>
-        <KeyboardAvoidingView>
           <TextInput
             value={this.state.name}
             onChangeText={name => this.setState({ name })}
@@ -95,7 +94,7 @@ export default class Register extends Component {
             secureTextEntry
             ref={input => (this.passwordInput = input)}
           />
-        </KeyboardAvoidingView>
+        
         <TouchableHighlight
           onPress={this.onRegisterPress.bind(this)}
           style={styles.button}
@@ -103,6 +102,7 @@ export default class Register extends Component {
           <Text style={styles.buttonText}>Register</Text>
         </TouchableHighlight>
       </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -125,6 +125,12 @@ const styles = StyleSheet.create({
   logo: {
     width: 200,
     height: 150
+  },
+  keyboard:{
+    margin: 0,
+    padding: 0,
+    alignSelf: "stretch",
+    flex: 1,
   },
   input: {
     height: 40,

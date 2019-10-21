@@ -39,13 +39,14 @@ export default class Login extends Component {
   }
   render() {
     return (
+      
       <View style={styles.container}>
         <View behavior="padding" style={styles.container}>
           <View style={styles.logoContainer}>
-          
-            <Text style={styles.subtext}>Humdum</Text>
+            <Text style={styles.subtext}>Login</Text>
           </View>
-          <KeyboardAvoidingView style={styles.keyboard}>
+          
+          <KeyboardAvoidingView style={styles.keyboard} behavior='padding'>
             <TextInput
               placeholder="Username"
               placeholderTextColor="rgba(255,255,255,0.7)"
@@ -75,7 +76,7 @@ export default class Login extends Component {
             >
               <Text style={styles.buttonText}>LOGIN</Text>
             </TouchableOpacity>
-          </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
         </View>
         <TouchableOpacity style={styles.button}>
           <Text
@@ -96,6 +97,7 @@ export default class Login extends Component {
           </Text>
         </TouchableOpacity>
       </View>
+      
     );
   }
 }
@@ -103,6 +105,7 @@ export default class Login extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 0,
     backgroundColor: "#16a085"
   },
   logoContainer: {
@@ -119,6 +122,7 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     marginTop: 10,
     width: 160,
+    fontSize: 35,
     textAlign: "center",
     opacity: 0.8
   },
@@ -130,9 +134,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10
   },
   keyboard:{
-    margin: 20,
+    margin: 0,
     padding: 20,
-    alignSelf: "stretch"
+    alignSelf: "stretch",
+    flex: 1,
   },
   buttonContainer: {
     backgroundColor: "rgba(255,255,255,0.2)",
